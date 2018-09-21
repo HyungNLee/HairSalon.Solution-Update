@@ -44,5 +44,13 @@ namespace HairSalon.Controllers
       editStylist.Edit(stylistName);
       return RedirectToAction("Index", "Home");
     }
+
+    //Deletes all stylists from database
+    [HttpGet("home/delete/stylists")]
+    public ActionResult DeleteAll()
+    {
+      Stylist.DeleteAll();
+      return RedirectToAction("Index", "Home");
+    }
   }
 }

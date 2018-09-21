@@ -9,6 +9,7 @@ div#header {
 }
 
 .jumbotron {
+  margin-top: 55px;
   background-color: #2594fc;
   text-align: center;
   box-shadow: 2px 2px #e0e0e0;

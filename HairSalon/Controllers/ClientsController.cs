@@ -50,5 +50,13 @@ namespace HairSalon.Controllers
       editClient.Edit(clientName, newStylistId);
       return RedirectToAction("Details", "Stylists", new { id = stylistId });
     }
+
+    //Deletes all clients from database
+    [HttpGet("home/delete/clients")]
+    public ActionResult DeleteAll()
+    {
+      Client.DeleteAll();
+      return RedirectToAction("Index", "Home");
+    }
   }
 }
