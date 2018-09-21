@@ -36,6 +36,15 @@ namespace HairSalon.Controllers
       return View(model);
     }
 
+    //Find stylist by name
+    [HttpGet("stylists/find-by-name")]
+    public ActionResult SearchByName(string stylistName)
+    {
+      Stylist foundStylist = Stylist.FindByName(stylistName);
+      int id = foundStylist.GetId();
+      return RedirectToAction("Details", new { id = id });
+    }
+
     //Edit details for specific stylist from homepage.
     [HttpPost("/home/stylists/{id}/edit")]
     public ActionResult EditDetails(int id, string stylistName)
