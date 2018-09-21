@@ -11,6 +11,8 @@ A website that uses a database to keep track of all the stylists and clients to 
 
 | Specs    |  Input | Expected Output    
 | ------------- |------------- |-------------|
+| User can add a new stylist to the database. | "Derek" | Database list will have "Derek" |
+| User can add clients to any stylist in the list. | "Paul" | "Paul" will show up under the stylist the user added "Paul" to. |
 
 
 
