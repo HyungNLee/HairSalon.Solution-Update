@@ -73,18 +73,17 @@ namespace HairSalon.Tests
     public void Stylist_EditedStylistHasDifferentValue_True()
     {
       //Arrange
-      Stylist stylistOne = new Stylist ("One");
-      Stylist stylistTwo = new Stylist ("Two");
+      Stylist stylistOne = new Stylist ("Meria");
+      Stylist stylistTwo = new Stylist ("Skye");
       stylistOne.Save();
       int id = stylistOne.GetId();
 
       //Act
-      stylistOne.Edit("Two");
+      stylistOne.Edit("Skye");
       Stylist foundStylist = Stylist.Find(id);
 
       //Assert
       Assert.AreEqual(stylistTwo, foundStylist);
     }
-    
   }
 }
