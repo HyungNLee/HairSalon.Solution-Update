@@ -40,5 +40,15 @@ namespace HairSalon.Controllers
       Client.Delete(clientId);
       return RedirectToAction("Details", "Stylists", new { id = stylistId });
     }
+
+    //Edit a specific client with a model from stylists details page.
+    [HttpPost("/stylists/{stylistId}/clients/{clientId}/edit")]
+    public ActionResult EditClientFromDetails(int stylistId, int clientId, string clientName, string newStylist)
+    {
+      int newStylistId = int.Parse(newStylist);
+      Client editClient = Client.Find(clientId);
+      editClient.Edit(clientName, newStylistId);
+      return RedirectToAction("Details", "Stylists", new { id = stylistId });
+    }
   }
 }

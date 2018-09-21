@@ -28,8 +28,21 @@ namespace HairSalon.Controllers
     [HttpGet("/stylists/{id}/details")]
     public ActionResult Details(int id)
     {
+      List<Stylist> allStylists = Stylist.GetAll();
       Stylist foundStylist = Stylist.Find(id);
-      return View(foundStylist);
+      Dictionary<string, object> model = new Dictionary<string, object>() {};
+      model.Add("stylist", foundStylist);
+      model.Add("list", allStylists);
+      return View(model);
+    }
+
+    //Edit details for specific stylist from homepage.
+    [HttpPost("/home/stylists/{id}/edit")]
+    public ActionResult EditDetails(int id, string stylistName)
+    {
+      Stylist editStylist = Stylist.Find(id);
+      editStylist.Edit(stylistName);
+      return RedirectToAction("Index", "Home");
     }
   }
 }
