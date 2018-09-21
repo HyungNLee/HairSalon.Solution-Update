@@ -6,9 +6,9 @@ using HairSalon.Models;
 namespace HairSalon.Tests
 {
   [TestClass]
-  public class HairSalonTests : IDisposable
+  public class ClientTests : IDisposable
   {
-    public HairSalonTests()
+    public ClientTests()
     {
       DBConfiguration.ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=hyung_lee_test;";
     }
