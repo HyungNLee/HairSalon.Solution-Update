@@ -19,6 +19,7 @@
           <th scope="col">#</th>
           <th scope="col">Name</th>
           <th scope="col">Number of Clients</th>
+          <th scope="col">Details Page</th>
           <th scope="col">Add Client</th>
           <th scope="col">Delete</th>
         </tr>
@@ -30,14 +31,13 @@
             <th scope="row">@stylist.GetId()</th>
             <td>@stylist.GetName()</td>
             <td>@stylist.NumberOfClients()</td>
-            <!-- <td><a href="home/stylists/@stylist.GetId()/client/add" class="btn btn-danger">Add Client</a></td> -->
+            <td><a href="/stylists/@stylist.GetId()/details" class="btn btn-danger">Details</a></td>
             <td><button class="btn btn-info" id="addClientButton" data-toggle="modal" data-target="#@stylist.GetId()" data->Add Client</button></td>
             <td><a href="home/stylists/@stylist.GetId()/delete" class="btn btn-danger">Delete</a></td>
           </tr>
 
           <!-- MODAL FOR ADDING CLIENTS -->
           <div class="modal-container">
-            <!--Modal for 'Add Clients'-->
             <div class="modal fade" id=@stylist.GetId() tabindex="-1" role="dialog" aria-labelledby="addClientLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">

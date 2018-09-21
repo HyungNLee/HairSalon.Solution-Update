@@ -1,0 +1,39 @@
+@{
+  Layout = "_Layout";
+}
+
+<div class="container-fluid">
+  <div class="jumbotron">
+    <h1>@Model.GetName()</h1>
+  </div>
+  <form action="/stylists/@Model.GetId()/client/add" method="post">
+    <div class="form-group">
+      <input type="hidden" id="stylistId" name="stylistId" value=@Model.GetId()>
+      <label for="clientName">Add Client: </label>
+      <input type="text" id="clientName" class="form-control" name="clientName">
+    </div>
+    <button type="submit" class="btn btn-info">Submit</button>
+  </form>
+  <br>
+  <div class="table-container">
+    <table class="table stylist-table">
+      <thead>
+        <tr>
+          <th scope="col">ID #</th>
+          <th scope="col">Client Name</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var client in Model.GetClients())
+        {
+          <tr>
+            <th scope="row">@client.GetId()</th>
+            <td>@client.GetName()</td>
+            <td><a href="/stylists/@Model.GetId()/clients/@client.GetId()/delete" class="btn btn-danger">Delete</a></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

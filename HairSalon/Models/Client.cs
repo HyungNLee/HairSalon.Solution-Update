@@ -72,7 +72,7 @@ namespace HairSalon.Models
     }
 
     //Deletes client from database by ID.
-    public void Delete(int id)
+    public static void Delete(int id)
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();

@@ -7,6 +7,7 @@ namespace HairSalon.Controllers
 {
   public class StylistsController : Controller
   {
+    //Deletes a stylist from database from homepage.
     [HttpGet("/home/stylists/{id}/delete")]
     public ActionResult Delete(int id)
     {
@@ -14,14 +15,7 @@ namespace HairSalon.Controllers
       return RedirectToAction("Index", "Home");
     }
 
-    [HttpPost("/home/stylists/client/add")]
-    public ActionResult AddClient(int stylistId, string clientName)
-    {
-      Client newClient = new Client(clientName, stylistId);
-      newClient.Save();
-      return RedirectToAction("Index", "Home");
-    }
-
+    //Adds a stylist to database from homepage.
     [HttpPost("/home/stylists/add")]
     public ActionResult AddClient(string stylistName)
     {
@@ -30,11 +24,12 @@ namespace HairSalon.Controllers
       return RedirectToAction("Index", "Home");
     }
 
-    [HttpGet("/home/stylists/{id}/add")]
-    public ActionResult Add(int id)
+    //Click to get details page for one stylist.
+    [HttpGet("/stylists/{id}/details")]
+    public ActionResult Details(int id)
     {
-      Stylist newStylist = Stylist.Find(id);
-      return PartialView("AddModal", newStylist);
+      Stylist foundStylist = Stylist.Find(id);
+      return View(foundStylist);
     }
   }
 }
