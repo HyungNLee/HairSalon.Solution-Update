@@ -30,7 +30,7 @@ namespace HairSalon.Models
     }
 
     //Delete specific stylist from database by ID.
-    public void Delete(int id)
+    public static void Delete(int id)
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
@@ -257,6 +257,41 @@ namespace HairSalon.Models
       {
           conn.Dispose();
       }
+    }
+
+    //Function to get number of clients.
+    public int NumberOfClients()
+    {
+      List<Client> allStylistClients = new List<Client>() {};
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM clients WHERE stylist_id = @stylist_id;";
+
+      MySqlParameter stylistId = new MySqlParameter();
+      stylistId.ParameterName = "@stylist_id";
+      stylistId.Value = this._id;
+      cmd.Parameters.Add(stylistId);
+
+
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+      while(rdr.Read())
+      {
+        int clientId = rdr.GetInt32(0);
+        string clientName = rdr.GetString(1);
+        int clientStylistId = rdr.GetInt32(2);
+        Client newClient = new Client(clientName, clientStylistId, clientId);
+        allStylistClients.Add(newClient);
+      }
+
+      conn.Close();
+      if (conn != null)
+      {
+          conn.Dispose();
+      }
+
+      return allStylistClients.Count;
     }
   }
 }
