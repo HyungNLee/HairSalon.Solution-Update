@@ -17,6 +17,7 @@ namespace HairSalon.Tests
     {
       Client.DeleteAll();
       Stylist.DeleteAll();
+      Speciality.DeleteAll();
     }
 
     [TestMethod]
@@ -63,7 +64,7 @@ namespace HairSalon.Tests
       Stylist defaultStylist = new Stylist("", 0);
 
       //Act
-      stylistOne.Delete(id);
+      Stylist.Delete(id);
       Stylist notFound = Stylist.Find(id);
 
       //Assert

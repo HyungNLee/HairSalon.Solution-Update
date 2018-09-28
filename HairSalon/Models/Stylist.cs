@@ -35,7 +35,7 @@ namespace HairSalon.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"DELETE FROM stylists where id = @thisId;";
+      cmd.CommandText = @"DELETE FROM stylists WHERE id = @thisId; DELETE FROM stylists_specialities WHERE stylist_id = @thisId;";
 
       MySqlParameter searchId = new MySqlParameter();
       searchId.ParameterName = "@thisId";
@@ -226,7 +226,7 @@ namespace HairSalon.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"TRUNCATE TABLE stylists;";
+      cmd.CommandText = @"TRUNCATE TABLE stylists; TRUNCATE TABLE stylists_specialities;";
 
       cmd.ExecuteNonQuery();
 
@@ -327,6 +327,57 @@ namespace HairSalon.Models
       }
 
       return allStylistClients.Count;
+    }
+
+    // Function to add a speciality to this stylist.
+    public void AddSpeciality(Speciality newSpeciality)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"INSERT INTO stylists_specialities (stylist_id, speciality_id) VALUES (@stylistId, @specialityId);";
+
+      cmd.Parameters.AddWithValue(@"stylistId", this._id);
+      cmd.Parameters.AddWithValue(@"specialityId", newSpeciality.GetId());
+
+      cmd.ExecuteNonQuery();
+
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
+
+    // Function to get all specialities of this stylist.
+    public List<Speciality> GetSpecialities()
+    {
+      List<Speciality> allSpecialities = new List<Speciality>() {};
+
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT specialities.* FROM stylists JOIN stylists_specialities ON (stylists.id = stylists_specialities.stylist_id) JOIN specialities ON (stylists_specialities.speciality_id = specialities.id) WHERE stylist.id = @thisId;";
+
+      cmd.Parameters.AddWithValue("@thisId", this._id);
+
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+      while(rdr.Read())
+      {
+        int newId = rdr.GetInt32(0);
+        string newName = rdr.GetString(1);
+        Speciality newSpeciality = new Speciality(newName, newId);
+        allSpecialities.Add(newSpeciality);
+      }
+
+      conn.Close();
+      if (conn != null)
+      {
+          conn.Dispose();
+      }
+
+      return allSpecialities;
     }
   }
 }
