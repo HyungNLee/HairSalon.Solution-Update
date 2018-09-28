@@ -4,7 +4,7 @@
 
 ## Description
 
-A website that uses a database to keep track of all the stylists and clients to those stylists for a hair salon. The user will be able to add stylists and clients who see that stylist.
+A website that uses a database to keep track of all the stylists and clients to those stylists for a hair salon. The user will be able to add stylists, specialities and clients who see that stylist.
 
 ## How It Works
 
