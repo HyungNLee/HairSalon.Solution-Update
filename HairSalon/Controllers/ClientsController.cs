@@ -84,5 +84,13 @@ namespace HairSalon.Controllers
       foundClient.Edit(clientName, newStylist);
       return RedirectToAction("Index", "Home", new { activeId = 2 });
     }
+
+    //Click to get details page for one client.
+    [HttpGet("/clients/{id}/details")]
+    public ActionResult Details(int id)
+    {
+      Client foundClient = Client.Find(id);
+      return View(foundClient);
+    }
   }
 }

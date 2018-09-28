@@ -26,14 +26,14 @@
       <div class="col">
         <form action="/home/stylists/add" method="post">
           <label for="stylistName">Add Stylist: </label>
-          <input id="stylistName" name="stylistName" type="text">
+          <input id="stylistName" name="stylistName" type="text" required>
           <button type="submit" class="btn btn-success">Add Stylist</button>
         </form>
       </div>
       <div class="col">
         <form action="stylists/find-by-name">
           <label for="stylistName">Search For: </label>
-          <input id="stylistName" name="stylistName" type="text">
+          <input id="stylistName" name="stylistName" type="text" required>
           <button type="submit" class="btn btn-info">Search Stylist</button>
         </form>
       </div>
@@ -46,7 +46,6 @@
             <th scope="col">Stylist #</th>
             <th scope="col">Stylist Name</th>
             <th scope="col">Number of Clients</th>
-            <th scope="col">Details Page</th>
             <th scope="col">Add Client</th>
             <th scope="col">Edit Stylist</th>
             <th scope="col">Delete</th>
@@ -57,9 +56,8 @@
           {
             <tr>
               <th scope="row">@stylist.GetId()</th>
-              <td>@stylist.GetName()</td>
+              <td><a href="/stylists/@stylist.GetId()/details">@stylist.GetName()</a></td>
               <td>@stylist.NumberOfClients()</td>
-              <td><a href="/stylists/@stylist.GetId()/details" class="btn btn-primary">Details</a></td>
               <td><button class="btn btn-info" id="addClientButton" data-toggle="modal" data-target="#@stylist.GetId()" data->Add Client</button></td>
               <td><button class="btn btn-warning" id="addClientButton" data-toggle="modal" data-target="#edit-@stylist.GetId()" data->Edit Information</button></td>
               <td><a href="home/stylists/@stylist.GetId()/delete" class="btn btn-danger">Delete</a></td>
@@ -80,7 +78,7 @@
                       <form action="/home/stylists/@stylist.GetId()/edit" method="post">
                         <div class="form-group">
                           <label for="stylistName">Stylist Name: </label>
-                          <input type="text" id="stylistName" class="form-control" name="stylistName" value=@stylist.GetName()>
+                          <input type="text" id="stylistName" class="form-control" name="stylistName" value=@stylist.GetName() required>
                         </div>
                         <br>
                         <button type="submit" class="btn btn-info">Edit</button>
@@ -108,7 +106,7 @@
                         <div class="form-group">
                           <input type="hidden" id="stylistId" name="stylistId" value=@stylist.GetId()>
                           <label for="clientName">Client Name: </label>
-                          <input type="text" id="clientName" class="form-control" name="clientName">
+                          <input type="text" id="clientName" class="form-control" name="clientName" required>
                         </div>
                         <button type="submit" class="btn btn-info">Submit</button>
                       </form>
@@ -130,8 +128,8 @@
     <form action="/home/clients/add" method="post">
       <div class="form-group">
         <label for="clientName">Add Client: </label>
-        <input type="text" id="clientName" class="form-control" name="clientName">
-        <select name="stylistId">
+        <input type="text" id="clientName" class="form-control" name="clientName" required>
+        <select name="stylistId" required>
           @foreach (var stylist in Model["stylistList"])
           {
             <option value=@stylist.GetId()>@stylist.GetName()</option>
@@ -157,14 +155,14 @@
           {
             <tr>
               <th scope="row">@client.GetId()</th>
-              <td>@client.GetName()</td>
+              <td><a href="/clients/@client.GetId()/details">@client.GetName()</a></td>
               <td><a href="/stylists/@client.GetStylistId()/details">@client.FindStylist().GetName()</a></td>
-              <td><button class="btn btn-primary" id="editClientButton" data-toggle="modal" data-target="#@client.GetId()" data->Edit Details</button></td>
+              <td><button class="btn btn-primary" id="editClientButton" data-toggle="modal" data-target="#clientEdit-@client.GetId()" data->Edit Details</button></td>
               <td><a href="/home/clients/@client.GetId()/delete" class="btn btn-danger">Delete</a></td>
             </tr>
             <!-- MODAL TO EDIT CLIENT -->
             <div class="modal-container">
-              <div class="modal fade" id=@client.GetId() tabindex="-1" role="dialog" aria-labelledby="editClientLabel" aria-hidden="true">
+              <div class="modal fade" id=clientEdit-@client.GetId() tabindex="-1" role="dialog" aria-labelledby="editClientLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -177,10 +175,10 @@
                       <form action="/home/clients/@client.GetId()/edit" method="post">
                         <div class="form-group">
                           <label for="clientName">Client Name: </label>
-                          <input type="text" id="clientName" class="form-control" name="clientName" value=@client.GetName()>
+                          <input type="text" id="clientName" class="form-control" name="clientName" value=@client.GetName() required>
                         </div>
                         <label for="newStylist">Stylist: </label>
-                        <select name="newStylist">
+                        <select name="newStylist" required>
                           @foreach (var stylist in Model["stylistList"])
                           {
                             <option value=@stylist.GetId()>@stylist.GetName()</option>
@@ -206,6 +204,3 @@
 
   </div>
 </div>
-
-
-
