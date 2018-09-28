@@ -15,7 +15,7 @@ namespace HairSalon.Controllers
       return RedirectToAction("Details", "Stylists", new {id = id});
     }
 
-    //Adds a client from modal in homepage.
+    //Adds a client to specific stylist from modal in homepage.
     [HttpPost("/home/stylists/client/add")]
     public ActionResult AddClient(int stylistId, string clientName)
     {
@@ -57,6 +57,32 @@ namespace HairSalon.Controllers
     {
       Client.DeleteAll();
       return RedirectToAction("Index", "Home");
+    }
+
+    // Adds client from client tab in homepage.
+    [HttpPost("/home/clients/add")]
+    public ActionResult AddClientFromHomePage(int stylistId, string clientName)
+    {
+      Client newClient = new Client(clientName, stylistId);
+      newClient.Save();
+      return RedirectToAction("Index", "Home", new { activeId = 2 });
+    }
+
+    // Deletes client from client tab in homepage.
+    [HttpGet("/home/clients/{id}/delete")]
+    public ActionResult DeleteClient(int id)
+    {
+      Client.Delete(id);
+      return RedirectToAction("Index", "Home", new { activeId = 2 });
+    }
+
+    // Edits client from client tab in homepage.
+    [HttpPost("/home/clients/{id}/edit")]
+    public ActionResult EditClientFromHomePage(int id, string clientName, int newStylist)
+    {
+      Client foundClient = Client.Find(id);
+      foundClient.Edit(clientName, newStylist);
+      return RedirectToAction("Index", "Home", new { activeId = 2 });
     }
   }
 }

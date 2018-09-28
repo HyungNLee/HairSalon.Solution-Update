@@ -2,113 +2,210 @@
   Layout = "_Layout";
 }
 
-<div class="container-fluid">
-  <div class="jumbotron">
-    <h1>Hair Salon Database</h1>
-  </div>
-  <div class="row">
-    <div class="col">
-      <form action="/home/stylists/add" method="post">
-        <label for="stylistName">Add Stylist: </label>
-        <input id="stylistName" name="stylistName" type="text">
-        <button type="submit" class="btn btn-success">Add Stylist</button>
-      </form>
-    </div>
-    <div class="col">
-      <form action="stylists/find-by-name">
-        <label for="stylistName">Search For: </label>
-        <input id="stylistName" name="stylistName" type="text">
-        <button type="submit" class="btn btn-info">Search Stylist</button>
-      </form>
-    </div>
-  </div>
-  <br>
-  <div class="table-container">
-    <table class="table stylist-table table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Name</th>
-          <th scope="col">Number of Clients</th>
-          <th scope="col">Details Page</th>
-          <th scope="col">Add Client</th>
-          <th scope="col">Edit Stylist</th>
-          <th scope="col">Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach (var stylist in Model)
-        {
-          <tr>
-            <th scope="row">@stylist.GetId()</th>
-            <td>@stylist.GetName()</td>
-            <td>@stylist.NumberOfClients()</td>
-            <td><a href="/stylists/@stylist.GetId()/details" class="btn btn-primary">Details</a></td>
-            <td><button class="btn btn-info" id="addClientButton" data-toggle="modal" data-target="#@stylist.GetId()" data->Add Client</button></td>
-            <td><button class="btn btn-warning" id="addClientButton" data-toggle="modal" data-target="#edit-@stylist.GetId()" data->Edit Information</button></td>
-            <td><a href="home/stylists/@stylist.GetId()/delete" class="btn btn-danger">Delete</a></td>
-          </tr>
-
-          <!-- MODAL FOR EDITING STYLIST INFO -->
-          <div class="modal-container">
-            <div class="modal fade" id=edit-@stylist.GetId() tabindex="-1" role="dialog" aria-labelledby="editStylistLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="editStylistLabel">Edit Details for @stylist.GetName()</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <form action="/home/stylists/@stylist.GetId()/edit" method="post">
-                      <div class="form-group">
-                        <label for="stylistName">Stylist Name: </label>
-                        <input type="text" id="stylistName" class="form-control" name="stylistName" value=@stylist.GetName()>
-                      </div>
-                      <br>
-                      <button type="submit" class="btn btn-info">Edit</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <!-- MODAL FOR ADDING CLIENTS -->
-          <div class="modal-container">
-            <div class="modal fade" id=@stylist.GetId() tabindex="-1" role="dialog" aria-labelledby="addClientLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="addClientLabel">Add Client For @stylist.GetName()</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <form action="/home/stylists/client/add" method="post">
-                      <div class="form-group">
-                        <input type="hidden" id="stylistId" name="stylistId" value=@stylist.GetId()>
-                        <label for="clientName">Client Name: </label>
-                        <input type="text" id="clientName" class="form-control" name="clientName">
-                      </div>
-                      <button type="submit" class="btn btn-info">Submit</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        }
-      </tbody>
-    </table>
-    <hr>
-    <a href="home/delete/stylists" class="btn btn-danger">Delete All Stylists</a>
-    <a href="home/delete/clients" class="btn btn-warning">Delete All Clients</a>
-  </div>
-
-  
-
+<div class="jumbotron">
+  <h1>Hair Salon Database</h1>
 </div>
+
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class='@Model["stylistsTab"]' id="stylists-tab" data-toggle="tab" href="#stylists" role="tab" aria-controls="stylists" aria-selected="false">Stylists</a>
+  </li>
+  <li class="nav-item">
+    <a class='@Model["clientsTab"]' id="clients-tab" data-toggle="tab" href="#clients" role="tab" aria-controls="clients" aria-selected="false">Clients</a>
+  </li>
+  <li class="nav-item">
+    <a class='@Model["specialitiesTab"]' id="specialities-tab" data-toggle="tab" href="#specialities" role="tab" aria-controls="specialities" aria-selected="false">Specialities</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <!-- ADD CONTENT FOR STYLISTS HERE -->
+  <div class='@Model["stylistsDiv"]'stylistsDiv id="stylists" role="tabpanel" aria-labelledby="stylists-tab">
+    <br>
+    <div class="row">
+      <div class="col">
+        <form action="/home/stylists/add" method="post">
+          <label for="stylistName">Add Stylist: </label>
+          <input id="stylistName" name="stylistName" type="text">
+          <button type="submit" class="btn btn-success">Add Stylist</button>
+        </form>
+      </div>
+      <div class="col">
+        <form action="stylists/find-by-name">
+          <label for="stylistName">Search For: </label>
+          <input id="stylistName" name="stylistName" type="text">
+          <button type="submit" class="btn btn-info">Search Stylist</button>
+        </form>
+      </div>
+    </div>
+    <br>
+    <div class="table-container">
+      <table class="table stylist-table table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Stylist #</th>
+            <th scope="col">Stylist Name</th>
+            <th scope="col">Number of Clients</th>
+            <th scope="col">Details Page</th>
+            <th scope="col">Add Client</th>
+            <th scope="col">Edit Stylist</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var stylist in Model["stylistList"])
+          {
+            <tr>
+              <th scope="row">@stylist.GetId()</th>
+              <td>@stylist.GetName()</td>
+              <td>@stylist.NumberOfClients()</td>
+              <td><a href="/stylists/@stylist.GetId()/details" class="btn btn-primary">Details</a></td>
+              <td><button class="btn btn-info" id="addClientButton" data-toggle="modal" data-target="#@stylist.GetId()" data->Add Client</button></td>
+              <td><button class="btn btn-warning" id="addClientButton" data-toggle="modal" data-target="#edit-@stylist.GetId()" data->Edit Information</button></td>
+              <td><a href="home/stylists/@stylist.GetId()/delete" class="btn btn-danger">Delete</a></td>
+            </tr>
+
+            <!-- MODAL FOR EDITING STYLIST INFO -->
+            <div class="modal-container">
+              <div class="modal fade" id=edit-@stylist.GetId() tabindex="-1" role="dialog" aria-labelledby="editStylistLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="editStylistLabel">Edit Details for @stylist.GetName()</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form action="/home/stylists/@stylist.GetId()/edit" method="post">
+                        <div class="form-group">
+                          <label for="stylistName">Stylist Name: </label>
+                          <input type="text" id="stylistName" class="form-control" name="stylistName" value=@stylist.GetName()>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-info">Edit</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- MODAL FOR ADDING CLIENTS -->
+            <div class="modal-container">
+              <div class="modal fade" id=@stylist.GetId() tabindex="-1" role="dialog" aria-labelledby="addClientLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="addClientLabel">Add Client For @stylist.GetName()</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form action="/home/stylists/client/add" method="post">
+                        <div class="form-group">
+                          <input type="hidden" id="stylistId" name="stylistId" value=@stylist.GetId()>
+                          <label for="clientName">Client Name: </label>
+                          <input type="text" id="clientName" class="form-control" name="clientName">
+                        </div>
+                        <button type="submit" class="btn btn-info">Submit</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </tbody>
+      </table>
+      <hr>
+      <a href="home/delete/stylists" class="btn btn-danger">Delete All Stylists</a>
+    </div>
+  </div>
+  <!-- ADD CONTENT FOR CLIENTS HERE -->
+  <div class='@Model["clientsDiv"]' id="clients" role="tabpanel" aria-labelledby="clients-tab">
+    <br>
+    <form action="/home/clients/add" method="post">
+      <div class="form-group">
+        <label for="clientName">Add Client: </label>
+        <input type="text" id="clientName" class="form-control" name="clientName">
+        <select name="stylistId">
+          @foreach (var stylist in Model["stylistList"])
+          {
+            <option value=@stylist.GetId()>@stylist.GetName()</option>
+          }
+        </select>
+      </div>
+      <button type="submit" class="btn btn-info">Add Client</button>
+    </form>
+    <br>
+    <div class="table-container">
+      <table class="table stylist-table table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Client #</th>
+            <th scope="col">Client Name</th>
+            <th scope="col">Stylist Name</th>
+            <th scope="col">Edit Client</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var client in Model["clientList"])
+          {
+            <tr>
+              <th scope="row">@client.GetId()</th>
+              <td>@client.GetName()</td>
+              <td><a href="/stylists/@client.GetStylistId()/details">@client.FindStylist().GetName()</a></td>
+              <td><button class="btn btn-primary" id="editClientButton" data-toggle="modal" data-target="#@client.GetId()" data->Edit Details</button></td>
+              <td><a href="/home/clients/@client.GetId()/delete" class="btn btn-danger">Delete</a></td>
+            </tr>
+            <!-- MODAL TO EDIT CLIENT -->
+            <div class="modal-container">
+              <div class="modal fade" id=@client.GetId() tabindex="-1" role="dialog" aria-labelledby="editClientLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="editClientLabel">Edit Details for @client.GetName()</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form action="/home/clients/@client.GetId()/edit" method="post">
+                        <div class="form-group">
+                          <label for="clientName">Client Name: </label>
+                          <input type="text" id="clientName" class="form-control" name="clientName" value=@client.GetName()>
+                        </div>
+                        <label for="newStylist">Stylist: </label>
+                        <select name="newStylist">
+                          @foreach (var stylist in Model["stylistList"])
+                          {
+                            <option value=@stylist.GetId()>@stylist.GetName()</option>
+                          }
+                        </select>
+                        <br>
+                        <button type="submit" class="btn btn-info">Edit</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </tbody>
+      </table>
+      <a href="home/delete/clients" class="btn btn-warning">Delete All Clients</a>
+    </div>
+  </div>
+  <!-- ADD CONTENT FOR SPECIALITIES HERE -->
+  <div class='@Model["specialitiesDiv"]' id="specialities" role="tabpanel" aria-labelledby="specialities-tab">
+    <br>
+
+  </div>
+</div>
+
+
+
