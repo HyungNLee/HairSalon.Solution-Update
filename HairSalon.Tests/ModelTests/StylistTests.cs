@@ -86,5 +86,23 @@ namespace HairSalon.Tests
       //Assert
       Assert.AreEqual(stylistTwo, foundStylist);
     }
+
+    [TestMethod]
+    public void AddSpeciality_SpecialityIsAddedToJoinTable_True()
+    {
+      //Arrange
+      Speciality specialityOne = new Speciality("Cutting");
+      specialityOne.Save();
+      Stylist stylistOne = new Stylist("Ryan");
+      stylistOne.Save();
+
+      //Act
+      stylistOne.AddSpeciality(specialityOne);
+      List<Speciality> allSpecialitys = stylistOne.GetSpecialities();
+      int count = allSpecialitys.Count;
+
+      //Assert
+      Assert.AreEqual(1, count);
+    }
   }
 }

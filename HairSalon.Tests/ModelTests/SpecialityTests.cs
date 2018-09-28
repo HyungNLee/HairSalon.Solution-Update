@@ -21,7 +21,7 @@ namespace HairSalon.Tests
     }
 
     [TestMethod]
-    public void Speciality_DBstartsEmpty_Empty()
+    public void GetAll_DBstartsEmpty_Empty()
     {
       int count = Speciality.GetAll().Count;
 
@@ -40,7 +40,7 @@ namespace HairSalon.Tests
     }
 
     [TestMethod]
-    public void Speciality_FindMatchingSpeciality_True()
+    public void Find_FindMatchingSpeciality_True()
     {
       //Arrange
       Speciality specialityOne = new Speciality("Cutting");
@@ -55,7 +55,7 @@ namespace HairSalon.Tests
     }
 
     [TestMethod]
-    public void Speciality_SpecialityDeletedFromDB_True()
+    public void Delete_SpecialityDeletedFromDB_True()
     {
       //Arrange
       Speciality specialityOne = new Speciality("Cutting");
@@ -70,8 +70,9 @@ namespace HairSalon.Tests
       //Assert
       Assert.AreEqual(notFound, defaultSpeciality);
     }
+
     [TestMethod]
-    public void Speciality_EditedSpecialityHasDifferentValue_True()
+    public void Edit_EditedSpecialityHasDifferentValue_True()
     {
       //Arrange
       Speciality specialityOne = new Speciality ("Cutting");
@@ -85,6 +86,24 @@ namespace HairSalon.Tests
 
       //Assert
       Assert.AreEqual(specialityTwo, foundSpeciality);
+    }
+
+    [TestMethod]
+    public void AddStylist_StylistIsAddedToJoinTable_True()
+    {
+      //Arrange
+      Speciality specialityOne = new Speciality("Cutting");
+      specialityOne.Save();
+      Stylist stylistOne = new Stylist("Ryan");
+      stylistOne.Save();
+
+      //Act
+      specialityOne.AddStylist(stylistOne);
+      List<Stylist> allStylists = specialityOne.GetStylists();
+      int count = allStylists.Count;
+
+      //Assert
+      Assert.AreEqual(1, count);
     }
   }
 }

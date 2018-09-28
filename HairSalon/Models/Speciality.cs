@@ -172,41 +172,6 @@ namespace HairSalon.Models
       return newSpeciality;
     }
 
-    // //Finds a specific stylist by name.
-    // public static Stylist FindByName(string name)
-    // {
-    //   MySqlConnection conn =  DB.Connection();
-    //   conn.Open();
-    //   var cmd = conn.CreateCommand() as MySqlCommand;
-    //   cmd.CommandText = @"SELECT * FROM stylists WHERE name = (@searchName);";
-
-    //   MySqlParameter searchName = new MySqlParameter();
-    //   searchName.ParameterName = "@searchName";
-    //   searchName.Value = name;
-    //   cmd.Parameters.Add(searchName);
-
-    //   var rdr = cmd.ExecuteReader() as MySqlDataReader;
-
-    //   int stylistId = 0;
-    //   string stylistName = "";
-
-    //   while (rdr.Read())
-    //   {
-    //     stylistId = rdr.GetInt32(0);
-    //     stylistName = rdr.GetString(1);
-    //   }
-
-    //   Stylist newStylist = new Stylist(stylistName, stylistId);
-
-    //   conn.Close();
-    //   if (conn != null)
-    //   {
-    //     conn.Dispose();
-    //   }
-
-    //   return newStylist;
-    // }
-
     //Deletes all specialities from database.
     public static void DeleteAll()
     {
@@ -254,28 +219,6 @@ namespace HairSalon.Models
       return allStylists;
     }
 
-    // //Function to delete all clients from this stylist.
-    // public void DeleteAllClientsFromStylist()
-    // {
-    //   MySqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //   var cmd = conn.CreateCommand() as MySqlCommand;
-    //   cmd.CommandText = @"DELETE * FROM clients WHERE stylist_id = @stylist_id;";
-
-    //   MySqlParameter stylistId = new MySqlParameter();
-    //   stylistId.ParameterName = "@stylist_id";
-    //   stylistId.Value = this._id;
-    //   cmd.Parameters.Add(stylistId);
-
-    //   cmd.ExecuteNonQuery();
-
-    //   conn.Close();
-    //   if (conn != null)
-    //   {
-    //       conn.Dispose();
-    //   }
-    // }
-
     // Function to add a stylist to this speciality.
     public void AddStylist(Stylist newStylist)
     {
@@ -294,37 +237,6 @@ namespace HairSalon.Models
       {
         conn.Dispose();
       }
-    }
-
-    // Function to get all stylists with this speciality.
-    public List<Stylist> GetSpecialities()
-    {
-      List<Stylist> allStylists = new List<Stylist>() {};
-
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
-      var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT stylists.* FROM specialities JOIN stylists_specialities ON (specialities.id = stylists_specialities.speciality_id) JOIN stylists ON (stylists_specialities.stylist_id = stylists.id) WHERE specialities.id = @thisId;";
-
-      cmd.Parameters.AddWithValue("@thisId", this._id);
-
-      var rdr = cmd.ExecuteReader() as MySqlDataReader;
-
-      while(rdr.Read())
-      {
-        int newId = rdr.GetInt32(0);
-        string newName = rdr.GetString(1);
-        Stylist newStylist = new Stylist(newName, newId);
-        allStylists.Add(newStylist);
-      }
-
-      conn.Close();
-      if (conn != null)
-      {
-          conn.Dispose();
-      }
-
-      return allStylists;
     }
   }
 }
