@@ -38,10 +38,12 @@ namespace HairSalon.Controllers
 
       List<Stylist> allStylists = Stylist.GetAll();
       List<Client> allClients = Client.GetAll();
+      List<Speciality> allSpecialities = Speciality.GetAll();
 
       Dictionary<string, object> model = new Dictionary<string, object>{};
       model.Add("stylistList", allStylists);
       model.Add("clientList", allClients);
+      model.Add("specialityList", allSpecialities);
 
       model.Add("stylistsTab", stylistsTab);
       model.Add("stylistsDiv", stylistsDiv);

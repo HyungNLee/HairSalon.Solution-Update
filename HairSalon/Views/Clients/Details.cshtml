@@ -5,5 +5,5 @@
 <div class="jumbotron">
   <h1>Client - @Model.GetName()</h1>
 </div>
-  <h3>Current Stylist - @Model.FindStylist().GetName()</h3>
+  <h3>Current Stylist - <a href="/stylists/@Model.FindStylist().GetId()/details">@Model.FindStylist().GetName()</a></h3>
 </div>

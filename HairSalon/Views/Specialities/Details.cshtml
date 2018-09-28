@@ -1,0 +1,44 @@
+@{
+  Layout = "_LayoutDetails";
+}
+
+<div class="jumbotron">
+  <h1>Speciality - @Model["speciality"].GetName()</h1>
+</div>
+<br>
+<form action='/specialities/@Model["speciality"].GetId()/stylist/add' method="post">
+  <select name="stylistId">
+    @foreach (var stylist in Model["stylistList"])
+    {
+      <option value=@stylist.GetId()>@stylist.GetName()</option>
+    }
+  </select>
+  <br>
+  <br>
+  <button type="submit" class="btn btn-info">Add Stylist to @Model["speciality"].GetName()</button>
+</form>
+<br>
+<h3>@Model["speciality"].GetName() Stylist List</h3>
+<div class="table-container">
+  <table class="table stylist-table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Stylist #</th>
+        <th scope="col">Stylist Name</th>
+        <th scope="col">Number of Clients</th>
+        <th scope="col">Number of Specialities</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var stylist in Model["currentList"])
+      {
+        <tr>
+          <th scope="row">@stylist.GetId()</th>
+          <td><a href="/stylists/@stylist.GetId()/details">@stylist.GetName()</a></td>
+          <td>@stylist.NumberOfClients()</td>
+          <td>@stylist.GetSpecialities().Count</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -238,5 +238,33 @@ namespace HairSalon.Models
         conn.Dispose();
       }
     }
+
+    // Function to check if pairing exists already in stylists_specialities join table
+    public bool CheckIfExists(int stylistId)
+    {
+      bool exists = false;
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM stylists_specialities WHERE (stylist_id = @stylistId AND speciality_id = @specialityId);";
+
+      cmd.Parameters.AddWithValue("@stylistId", stylistId);
+      cmd.Parameters.AddWithValue("@specialityId", this._id);
+
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+      if (rdr.Read())
+      {
+        exists = true;
+      }
+
+      conn.Close();
+      if (conn != null)
+      {
+          conn.Dispose();
+      }
+
+      return exists;
+    }
   }
 }

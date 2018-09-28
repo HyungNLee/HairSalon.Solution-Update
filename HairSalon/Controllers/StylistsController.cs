@@ -30,9 +30,11 @@ namespace HairSalon.Controllers
     {
       List<Stylist> allStylists = Stylist.GetAll();
       Stylist foundStylist = Stylist.Find(id);
+      List<Speciality> allSpecialities = Speciality.GetAll();
       Dictionary<string, object> model = new Dictionary<string, object>() {};
       model.Add("stylist", foundStylist);
       model.Add("list", allStylists);
+      model.Add("specialityList", allSpecialities);
       return View(model);
     }
 
@@ -55,11 +57,24 @@ namespace HairSalon.Controllers
     }
 
     //Deletes all stylists from database
-    [HttpGet("home/delete/stylists")]
+    [HttpGet("/home/delete/stylists")]
     public ActionResult DeleteAll()
     {
       Stylist.DeleteAll();
       return RedirectToAction("Index", "Home");
+    }
+
+    //Add a speciality to stylist from stylist details page.
+    [HttpPost("/stylists/{stylistId}/speciality/add")]
+    public ActionResult AddSpecialityFromDetails(int stylistId, int specialityId)
+    {
+      Stylist foundStylist = Stylist.Find(stylistId);
+      Speciality foundSpeciality = Speciality.Find(specialityId);
+      if (!foundSpeciality.CheckIfExists(foundStylist.GetId()))
+      {
+        foundStylist.AddSpeciality(foundSpeciality);
+      }
+      return RedirectToAction("Details", new { id = stylistId });
     }
   }
 }
