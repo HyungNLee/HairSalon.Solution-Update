@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Sep 22, 2018 at 01:05 AM
+-- Generation Time: Sep 28, 2018 at 11:44 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.0.15
 
@@ -37,12 +37,35 @@ CREATE TABLE `clients` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `specialities`
+--
+
+CREATE TABLE `specialities` (
+  `id` int(32) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `stylists`
 --
 
 CREATE TABLE `stylists` (
   `id` int(32) NOT NULL,
   `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stylists_specialities`
+--
+
+CREATE TABLE `stylists_specialities` (
+  `id` int(32) NOT NULL,
+  `stylist_id` int(32) NOT NULL,
+  `speciality_id` int(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -56,9 +79,21 @@ ALTER TABLE `clients`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `specialities`
+--
+ALTER TABLE `specialities`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `stylists`
 --
 ALTER TABLE `stylists`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `stylists_specialities`
+--
+ALTER TABLE `stylists_specialities`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -69,12 +104,22 @@ ALTER TABLE `stylists`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(32) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `specialities`
+--
+ALTER TABLE `specialities`
+  MODIFY `id` int(32) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `stylists`
 --
 ALTER TABLE `stylists`
-  MODIFY `id` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(32) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `stylists_specialities`
+--
+ALTER TABLE `stylists_specialities`
+  MODIFY `id` int(32) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
